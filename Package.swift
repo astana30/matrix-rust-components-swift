@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "MatrixSDKFFI",
-            url: "https://github.com/astana30/matrix-rust-sdk/releases/download/salemx-message-like-custom-content-8fe35ac28/MatrixSDKFFI-8fe35ac28.xcframework.zip",
-            checksum: "5cca85c5ab7612eb8db5761375d476527693368d79f28dcbbd0ded2f7a26f5d9"
+            url: "https://github.com/astana30/matrix-rust-sdk/releases/download/salemx-custom-message-like-timeline-filter-b10cf4652/MatrixSDKFFI-b10cf4652.xcframework.zip",
+            checksum: "2bc96dcfc3fd8d5157a869660c6350612fa56c76ae5888bdcb0dac77941686e8"
         ),
         .target(name: "MatrixRustSDK", dependencies: [.target(name: "MatrixSDKFFI")])
     ]

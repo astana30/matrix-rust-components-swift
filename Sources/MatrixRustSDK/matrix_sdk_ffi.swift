@@ -38010,6 +38010,16 @@ public enum TimelineFilter {
      */
     case all
     /**
+     * Show the default timeline events plus additional custom message-like
+     * event types.
+     */
+    case defaultWithAdditionalMessageLikeEventTypes(
+        /**
+         * A list of custom message-like event types that will be allowed to
+         * appear in addition to the default timeline events.
+         */eventTypes: [MessageLikeEventType]
+    )
+    /**
      * Show only `m.room.messages` of the given room message types.
      */
     case onlyMessage(
@@ -38046,10 +38056,13 @@ public struct FfiConverterTypeTimelineFilter: FfiConverterRustBuffer {
         
         case 1: return .all
         
-        case 2: return .onlyMessage(types: try FfiConverterSequenceTypeRoomMessageEventMessageType.read(from: &buf)
+        case 2: return .defaultWithAdditionalMessageLikeEventTypes(eventTypes: try FfiConverterSequenceTypeMessageLikeEventType.read(from: &buf)
         )
         
-        case 3: return .eventFilter(filter: try FfiConverterTypeTimelineEventFilter.read(from: &buf)
+        case 3: return .onlyMessage(types: try FfiConverterSequenceTypeRoomMessageEventMessageType.read(from: &buf)
+        )
+
+        case 4: return .eventFilter(filter: try FfiConverterTypeTimelineEventFilter.read(from: &buf)
         )
         
         default: throw UniffiInternalError.unexpectedEnumCase
@@ -38064,13 +38077,18 @@ public struct FfiConverterTypeTimelineFilter: FfiConverterRustBuffer {
             writeInt(&buf, Int32(1))
         
         
-        case let .onlyMessage(types):
+        case let .defaultWithAdditionalMessageLikeEventTypes(eventTypes):
             writeInt(&buf, Int32(2))
+            FfiConverterSequenceTypeMessageLikeEventType.write(eventTypes, into: &buf)
+
+
+        case let .onlyMessage(types):
+            writeInt(&buf, Int32(3))
             FfiConverterSequenceTypeRoomMessageEventMessageType.write(types, into: &buf)
             
         
         case let .eventFilter(filter):
-            writeInt(&buf, Int32(3))
+            writeInt(&buf, Int32(4))
             FfiConverterTypeTimelineEventFilter.write(filter, into: &buf)
             
         }
@@ -47483,6 +47501,31 @@ fileprivate struct FfiConverterSequenceTypeMembership: FfiConverterRustBuffer {
         seq.reserveCapacity(Int(len))
         for _ in 0 ..< len {
             seq.append(try FfiConverterTypeMembership.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeMessageLikeEventType: FfiConverterRustBuffer {
+    typealias SwiftType = [MessageLikeEventType]
+
+    public static func write(_ value: [MessageLikeEventType], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeMessageLikeEventType.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [MessageLikeEventType] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [MessageLikeEventType]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeMessageLikeEventType.read(from: &buf))
         }
         return seq
     }
