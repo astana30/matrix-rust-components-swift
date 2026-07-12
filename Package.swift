@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "MatrixSDKFFI",
-            url: "https://github.com/astana30/matrix-rust-sdk/releases/download/salemx-direct-call-key-envelope-f7c2cfe5c/MatrixSDKFFI-f7c2cfe5c.xcframework.zip",
-            checksum: "654f7433a6f5a5782abd8aa4d4c2a429a41d679e0612bf38bc05541e7126420e"
+            url: "https://github.com/astana30/matrix-rust-sdk/releases/download/salemx-direct-call-key-envelope-f7c2cfe5c-packagingfix1/MatrixSDKFFI-f7c2cfe5c-packagingfix1.xcframework.zip",
+            checksum: "f9ace1c50d7facf73c80feae349e8317de4d229ee21b53e91e2083e25124669c"
         ),
         .target(name: "MatrixRustSDK", dependencies: [.target(name: "MatrixSDKFFI")])
     ]
