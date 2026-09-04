@@ -7,7 +7,8 @@ let version = "26.03.10"
 let package = Package(
     name: "MatrixRustSDK",
     platforms: [
-        .iOS(.v16)
+        .iOS(.v16),
+        .macOS(.v12)
     ],
     products: [
         .library(name: "MatrixRustSDK", type: .dynamic, targets: ["MatrixRustSDK"]),
@@ -15,8 +16,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "MatrixSDKFFI",
-            url: "https://github.com/astana30/matrix-rust-sdk/releases/download/salemx-direct-call-key-envelope-f7c2cfe5c-packagingfix1/MatrixSDKFFI-f7c2cfe5c-packagingfix1.xcframework.zip",
-            checksum: "f9ace1c50d7facf73c80feae349e8317de4d229ee21b53e91e2083e25124669c"
+            url: "https://github.com/astana30/matrix-rust-sdk/releases/download/salemx-cold-answer-current-state-f14c9056c/MatrixSDKFFI-f14c9056c.xcframework.zip",
+            checksum: "c9001d145ede5d6eec14e4b0124c991fb4dc566c0a109c73ccea3263edef010e"
         ),
         .target(name: "MatrixRustSDK", dependencies: [.target(name: "MatrixSDKFFI")])
     ]
